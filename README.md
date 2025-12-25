@@ -16,7 +16,7 @@ This is my **first Machine Learning project** where I predict whether a passenge
 ---
 Uses : 
 
-model = joblib.load("titanic_model.pkl")
+model = joblib.load("titanic_model.pkl") <Br>
 model.predict([[3, "female", 26, 0, 0, 7, "S"]])
 
 
