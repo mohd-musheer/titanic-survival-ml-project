@@ -20,14 +20,24 @@ model = joblib.load("titanic_model.pkl") <Br>
 model.predict([[3, "female", 26, 0, 0, 7, "S"]])
 
 
-3 -> Class
-female -> sex
-26-> age
-0 -> number of siblings
-0 - >numper of parent
-7 -> ticked price you paid
+3 -> Class<Br>
+female -> sex<Br>
+26-> age<Br>
+0 -> number of siblings<Br>
+0 - >numper of parent<Br>
+7 -> ticked price you paid<Br>
 'S' -> place where you live usualy (S : Southemphetom England , C : Cherburg France , Q : Queenstown Irland)
 
+
+data = pd.DataFrame([{
+    'Pclass': d.Pclass,
+    'Sex': d.Sex,
+    'Age': d.Age,
+    'Siblings': d.Siblings,    
+    'Parents': d.Parents,
+    'Fare': d.ticket_price,
+    'Embarked': d.place
+    }])
 
 
 
