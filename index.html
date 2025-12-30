@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Titanic Survival Predictor</title>
+
+<style>
+body{
+    background:#001829;
+    font-family:Arial, sans-serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+    margin:0;
+    color:white;
+}
+.container{
+    width:400px; padding:20px;
+    background:#072c49; border-radius:10px;
+    box-shadow:0 0 20px rgba(0,200,255,.4);
+}
+h2{ text-align:center; }
+
+select, input{
+    width:100%; padding:10px; margin-top:8px;
+    border:none; border-radius:8px;
+}
+button{
+    width:100%; padding:12px;
+    background:#00eaff; color:#001829;
+    border:none; border-radius:8px;
+    font-weight:bold; cursor:pointer;
+    margin-top:12px;
+}
+#result{
+    margin-top:15px;
+    padding:12px;
+    font-size:18px;
+    border-radius:8px;
+    text-align:center;
+    display:none;
+}
+.loader{
+    display:none;
+    border:6px solid #f0f0f0;
+    border-top:6px solid #00eaff;
+    border-radius:50%;
+    width:40px; height:40px;
+    margin:10px auto;
+    animation: spin 1s linear infinite;
+}
+@keyframes spin{100%{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+
+<div class="container">
+<h2>🚢 Titanic Survival Predictor</h2>
+
+<label>Pclass</label>
+<select id="pclass">
+<option>1</option><option>2</option><option>3</option>
+</select>
+
+<label>Sex</label>
+<select id="sex">
+<option>male</option><option>female</option>
+</select>
+
+<label>Age</label>
+<input type="number" id="age" placeholder="Example: 29">
+
+<label>Siblings (Aboard)</label>
+<input type="number" id="siblings" placeholder="0">
+
+<label>Parents (Aboard)</label>
+<input type="number" id="parents" placeholder="0">
+
+<label>Fare Ticket Price</label>
+<input type="number" id="fare" placeholder="Example: 7">
+
+<label>Embarked From</label>
+<select id="place">
+<option value="S">Southampton (S)</option>
+<option value="C">Cherbourg (C)</option>
+<option value="Q">Queenstown (Q)</option>
+</select>
+
+<div class="loader" id="loader"></div>
+<button onclick="predict()">Predict 🌊</button>
+
+<div id="result"></div>
+</div>
+
+<script>
+const API = "https://YOUR-TITANIC-API.onrender.com"; // 🔥 CHANGE THIS
+
+async function predict(){
+    document.getElementById("loader").style.display = "block";
+    document.getElementById("result").style.display = "none";
+
+    const body = {
+        Pclass: Number(pclass.value),
+        Sex: sex.value,
+        Age: Number(age.value),
+        Siblings: Number(siblings.value),
+        Parents: Number(parents.value),
+        ticket_price: Number(fare.value),
+        place: place.value
+    };
+
+    const res = await fetch(`${API}/predict`, {
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify(body)
+    });
+
+    document.getElementById("loader").style.display = "none";
+
+    const json = await res.json();
+
+    let msg = json.survived === 1
+        ? "🎉 Survived!"
+        : "💀 Did Not Survive";
+
+    document.getElementById("result").innerText = msg;
+    document.getElementById("result").style.display = "block";
+
+    document.getElementById("result").style.background =
+        json.survived === 1 ? "#00ff9555" : "#ff444455";
+}
+</script>
+
+</body>
+</html>

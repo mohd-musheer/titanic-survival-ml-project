@@ -1,6 +1,7 @@
 pandas
-numpy
-scikit-learn
+scikit-learn==1.7.2
+fastapi
+fastapi.responses
 joblib
-
-
+pydantic
+uvicorn

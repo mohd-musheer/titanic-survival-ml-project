@@ -2,7 +2,7 @@
 import joblib
 from pydantic import BaseModel,Field
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse
+from fastapi.responses import HTMLResponse
 import pandas as pd
 
 app = FastAPI()
@@ -15,6 +15,14 @@ class titanic(BaseModel):
     Parents:int
     ticket_price:int
     place:str
+
+
+
+@app.get("/", response_class=HTMLResponse)
+def home():
+    with open("index.html", "r") as f:
+        return f.read()
+
 
 @app.post('/predict')
 def presict_outcome(d:titanic):
@@ -34,7 +42,7 @@ def presict_outcome(d:titanic):
 
 
     result = pipe.predict(data)[0]
-    return JSONResponse(status_code=200,content={'message':result})
+    return {"survived": int(result)}
 
 
 
