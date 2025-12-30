@@ -95,9 +95,25 @@ button{
 </div>
 
 <script>
-const API = "https://titanic-survival-ml-project.onrender.com"; 
+
+const API = "https://titanic-survival-ml-project.onrender.com/predict"; 
 
 async function predict(){
+
+    const pclass = document.getElementById("pclass");
+    const sex = document.getElementById("sex");
+    const age = document.getElementById("age");
+    const siblings = document.getElementById("siblings");
+    const parents = document.getElementById("parents");
+    const fare = document.getElementById("fare");
+    const place = document.getElementById("place");
+
+    // Simple validation
+    if(!age.value || !fare.value){
+        alert("Please enter Age and Ticket Price!");
+        return;
+    }
+
     document.getElementById("loader").style.display = "block";
     document.getElementById("result").style.display = "none";
 
@@ -111,25 +127,22 @@ async function predict(){
         place: place.value
     };
 
-    const res = await fetch(`${API}/predict`, {
+    const res = await fetch(API, {
         method:"POST",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify(body)
     });
 
+    const json = await res.json();
     document.getElementById("loader").style.display = "none";
 
-    const json = await res.json();
+    let msg = json.survived === 1 ? "🎉 Survived!" : "💀 Did Not Survive";
+    let bg = json.survived === 1 ? "#00ff9555" : "#ff444455";
 
-    let msg = json.survived === 1
-        ? "🎉 Survived!"
-        : "💀 Did Not Survive";
-
-    document.getElementById("result").innerText = msg;
-    document.getElementById("result").style.display = "block";
-
-    document.getElementById("result").style.background =
-        json.survived === 1 ? "#00ff9555" : "#ff444455";
+    const result = document.getElementById("result");
+    result.innerText = msg;
+    result.style.display = "block";
+    result.style.background = bg;
 }
 </script>
 

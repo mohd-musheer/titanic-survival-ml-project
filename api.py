@@ -25,7 +25,7 @@ def home():
 
 
 @app.post('/predict')
-def presict_outcome(d:titanic):
+def predict_outcome(d:titanic):
     pipe=joblib.load('TitanicPipeline.pkl')
 
     data = pd.DataFrame([{
@@ -37,9 +37,6 @@ def presict_outcome(d:titanic):
     'Fare': d.ticket_price,
     'Embarked': d.place
     }])
-
-
-
 
     result = pipe.predict(data)[0]
     return {"survived": int(result)}
