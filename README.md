@@ -2,7 +2,12 @@
 
 This is my **first Machine Learning project** where I predict whether a passenger would survive the Titanic tragedy based on features like class, age, gender, fare, and embarked location.
 
----API IN Progress
+check tour survival https://titanic-survival-ml-project.onrender.com
+
+
+
+
+---API https://titanic-survival-ml-project.onrender.com/predict
 
 ## 📌 Project Highlights
 - 🎯 Accuracy: **82.55%**
